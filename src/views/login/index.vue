@@ -49,8 +49,8 @@ export default {
     submitLogin () {
       this.$refs.myForm.validate(function (isOk) {
         if (isOk) {
-          // 调用借口
-          alert('调用借口')
+          // 调用接口
+          alert('调用接口')
         }
       })
     }
