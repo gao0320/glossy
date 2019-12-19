@@ -7,7 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './styles/index.less'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-axios.defaults.bassURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 Vue.prototype.$axios = axios
 new Vue({
   router,

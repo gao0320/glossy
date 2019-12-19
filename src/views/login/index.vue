@@ -47,10 +47,24 @@ export default {
   },
   methods: {
     submitLogin () {
-      this.$refs.myForm.validate(function (isOk) {
+      this.$refs.myForm.validate((isOk) => {
         if (isOk) {
           // 调用接口
-          alert('调用接口')
+          // alert('调用接口')
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginForm
+          }).then(result => {
+            window.localStorage.setItem('user-token', result.data.data.token)
+            this.$router.push('/home')// 跳到主页
+          }).catch(() => {
+            // $message是ele组件提供的方法
+            this.$message({
+              message: '手机号或者验证码错误',
+              type: 'warning'
+            })
+          })
         }
       })
     }
