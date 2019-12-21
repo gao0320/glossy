@@ -7,12 +7,12 @@
     <el-col :span="4" class="right">
       <el-row type="flex" justify="end" align="middle">
         <img :src="userInfo.photo?userInfo.photo : defaultImg" alt style="height:40px;width:40px;border-radius:50%" />
-        <el-dropdown>
+        <el-dropdown @command="handle">
           <span>{{userInfo.name}}</span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item>Git地址</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item command='info'>个人信息</el-dropdown-item>
+            <el-dropdown-item command='git'>Git地址</el-dropdown-item>
+            <el-dropdown-item command='lgout'>退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-row>
@@ -39,6 +39,17 @@ export default {
     }).then(result => {
       this.userInfo = result.data.data// 获取用户信息
     })
+  },
+  methods: {
+    handle (command) {
+      if (command === 'lgout') {
+        debugger
+        window.localStorage.removeItem('user-token')
+        this.$router.push('/login')
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/gao0320'
+      }
+    }
   }
 }
 </script>
