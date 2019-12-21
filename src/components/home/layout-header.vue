@@ -6,9 +6,9 @@
     </el-col>
     <el-col :span="4" class="right">
       <el-row type="flex" justify="end" align="middle">
-        <img src="../../assets/img/325608.jpg" alt style="height:40px;width:40px;border-radius:50%" />
+        <img :src="userInfo.photo?userInfo.photo : defaultImg" alt style="height:40px;width:40px;border-radius:50%" />
         <el-dropdown>
-          <span>紫宫初雪</span>
+          <span>{{userInfo.name}}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item>Git地址</el-dropdown-item>
@@ -21,7 +21,26 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      userInfo: {}, // 用户信息
+      defaultImg: require('../../assets/img/325608.jpg')
+    }
+  },
+  // 生命周期 进入查询数据
+  created () {
+    let token = window.localStorage.getItem('user-token')
+    this.$axios({
+      url: '/user/profile',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(result => {
+      this.userInfo = result.data.data// 获取用户信息
+    })
+  }
+}
 </script>
 
 <style lang="less" scoped>
