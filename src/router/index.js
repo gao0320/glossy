@@ -16,6 +16,11 @@ const routes = [{
   children: [{
     path: '',
     component: Home2
+  },
+  {
+  // 二级路由表
+    path: '/home/comment',
+    component: () => import('../views/comment')
   }]
 }, {
   path: '/login',
