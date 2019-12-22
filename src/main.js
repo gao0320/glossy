@@ -5,12 +5,12 @@ import ElementUI from 'element-ui'
 import axios from 'axios'
 import 'element-ui/lib/theme-chalk/index.css'
 import './styles/index.less'
-import './permission'
+import './utils/request'// 引入自己封装的axios
 import Component from './components'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Component)
-axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+
 Vue.prototype.$axios = axios
 new Vue({
   router,
