@@ -14,12 +14,12 @@ const routes = [{
   name: 'home',
   component: Home,
   children: [{
-    path: '',
+    path: '', // 二级路由不写作为显示组件
     component: Home2
   },
   {
   // 二级路由表
-    path: '/home/comment',
+    path: 'comment',
     component: () => import('../views/comment')
   }]
 }, {
