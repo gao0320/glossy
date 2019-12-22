@@ -1,5 +1,7 @@
 // 封装axios
 import axios from 'axios'
+import router from '../router'
+import { Message } from 'element-ui'
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 axios.interceptors.request.use(function (config) {
   // 在发起请求前做一些业务处理
@@ -14,7 +16,32 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   // 成功
   return response.data ? response.data : {}// 解决data不存在时then中读取数字报错问题
-}, function () {
+}, function (error) {
   // 失败
+  let status = error.response.status
+  let message = '未知错误'
+  switch (status) {
+    case 400:
+      message = '请求参数错误'
+      break
+    case 403:
+      message = '403 refresh_token未携带或已过期'
+      break
+    case 507:
+      message = '服务器数据库异常'
+      break
+    case 401:
+      message = 'token过期或未出'
+      window.localStorage.clear()
+      router.push('/login')
+      break
+    case 404:
+      message = '手机号不正确'
+      break
+    default:
+      break
+  }
+  Message({ message })
+  return new Promise(function () {})
 })
 export default axios

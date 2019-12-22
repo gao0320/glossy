@@ -58,12 +58,6 @@ export default {
           }).then(result => {
             window.localStorage.setItem('user-token', result.data.token)
             this.$router.push('/home')// 跳到主页
-          }).catch(() => {
-            // $message是ele组件提供的方法
-            this.$message({
-              message: '手机号或者验证码错误',
-              type: 'warning'
-            })
           })
         }
       })
