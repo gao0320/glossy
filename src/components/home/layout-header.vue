@@ -37,7 +37,7 @@ export default {
       //   Authorization: `Bearer ${token}`
       // }
     }).then(result => {
-      this.userInfo = result.data.data// 获取用户信息
+      this.userInfo = result.data// 获取用户信息
     })
   },
   methods: {

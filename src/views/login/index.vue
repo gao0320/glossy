@@ -56,7 +56,7 @@ export default {
             method: 'post',
             data: this.loginForm
           }).then(result => {
-            window.localStorage.setItem('user-token', result.data.data.token)
+            window.localStorage.setItem('user-token', result.data.token)
             this.$router.push('/home')// 跳到主页
           }).catch(() => {
             // $message是ele组件提供的方法
