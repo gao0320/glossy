@@ -11,7 +11,7 @@ axios.interceptors.request.use(function (config) {
   config.headers.Authorization = `Bearer ${token}` // 统一注入token 到headers属性 因为所有接口要求的token格式是一样的
   return config
 }, function () {
-  // 对请求失败做处理
+  // 失败
 
 })
 axios.defaults.transformResponse = [function (data) {

@@ -9,7 +9,7 @@ const routes = [{
   redirect: '/home'
 },
 {
-  // 主页
+  // 主页路由
   path: '/home',
   name: 'home',
   component: Home,
