@@ -17,7 +17,7 @@
            <!-- 放组件   作用域插槽  row column $index-->
            <template slot-scope="obj">
              <el-button type='text' size="small">修改</el-button>
-             <el-button type='text' size="small">{{  obj.row.comment_status ? '关闭评论' : '打开评论'  }}</el-button>
+            <el-button type='text' size="small" @click="openOrClose(obj.row)">{{  obj.row.comment_status ? '关闭评论' : '打开评论'  }}</el-button>
            </template>
          </el-table-column>
      </el-table>
@@ -49,6 +49,29 @@ export default {
       // cellValue 当前单元格的值
       // index  当前下标
       return cellValue ? '正常' : '关闭'
+    },
+    openOrClose (row) {
+      let mess = row.comment_status ? '关闭' : '打开'
+      // $comfirm是promise确定是进入then
+      this.$confirm(`你确定要${mess}吗？`).then(() => {
+        this.$axios({
+          method: 'put',
+          url: '/comments/status',
+          params: {
+            article_id: row.id
+          },
+          data: {
+            allow_comment: !row.comment_status
+          }
+        }).then(result => {
+          // 打开或者关闭评论成功之后
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+          this.getComment() // 重新请求列表
+        })
+      })
     }
   },
   created () {
