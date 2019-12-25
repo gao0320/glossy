@@ -20,10 +20,14 @@ const routes = [{
   {
   // 二级路由表
     path: 'comment',
-    component: () => import('../views/comment')
+    component: () => import('../views/comment')// 按需加载
   },
   { path: 'material',
     component: () => import('../views/material')
+  },
+  {
+    path: 'articles',
+    component: () => import('../views/articles')
   }]
 }, {
   path: '/login',
