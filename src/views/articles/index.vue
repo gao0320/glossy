@@ -23,8 +23,7 @@
         </el-col>
         <el-col :span="18">
             <el-select v-model="formData.channel_id">
-                <el-option vi-for="item in channels" :ket="item.id" :label="item.name"
-             :value="item.id"></el-option>
+                <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
         </el-col>
     </el-row>
