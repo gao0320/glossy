@@ -77,7 +77,7 @@
       <!-- 右侧 -->
       <el-col :span="6">
         <el-row class="right" type="flex" justify="end">
-          <span>
+          <span @click="toModify(item.id)">
             <i class="el-icon-edit"></i>修改
           </span>
           <span @click="delArticle(item.id)">
@@ -164,6 +164,10 @@ export default {
     }
   },
   methods: {
+    // 到修改文章页面
+    toModify (id) {
+      this.$router.push(`/home/publish/${id.toString()}`)
+    },
     // 删除文章 只能删除草稿
     delArticle (id) {
       this.$confirm('您是否确定删除该文章？').then(() => {
