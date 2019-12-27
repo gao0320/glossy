@@ -8,6 +8,7 @@
         <span>文章状态</span>
       </el-row>
       <el-row :span="18">
+        <!-- 可以用@change="changeCondition"也可以用watch 这里用watch -->
         <el-radio-group v-model="formData.status">
           <el-radio :label="5">全部</el-radio>
           <el-radio :label="0">草稿</el-radio>
@@ -18,21 +19,22 @@
       </el-row>
     </el-row>
     <el-row class="searchTool">
-        <el-col :span="2">
-              <span>频道列表</span>
-        </el-col>
-        <el-col :span="18">
-            <el-select @change="changeCondition" v-model="formData.channel_id">
-                <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
-            </el-select>
-        </el-col>
+      <el-col :span="2">
+        <span>频道列表</span>
+      </el-col>
+      <el-col :span="18">
+        <!-- <el-select @change="changeCondition" v-model="formData.channel_id"> -->
+        <el-select v-model="formData.channel_id">
+          <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
+      </el-col>
     </el-row>
     <el-row class="searchTool">
-        <el-col :span="2">
-            <span>时间选择</span>
-        </el-col>
-     <el-col :span="18">
-        <el-date-picker @change="changeCondition"
+      <el-col :span="2">
+        <span>时间选择</span>
+      </el-col>
+      <el-col :span="18">
+        <el-date-picker
           value-format="yyyy-MM-dd"
           v-model="formData.dateRange"
           type="daterange"
@@ -42,40 +44,50 @@
         ></el-date-picker>
       </el-col>
     </el-row>
-     <!-- 主体 -->
-    <el-row class='total'>
-        <!-- <span>共找到100条符合条件的内容</span> -->
-        <span>共找到{{ page.total }}条符合条件的内容</span>
+    <!-- 主体 -->
+    <el-row class="total">
+      <!-- <span>共找到100条符合条件的内容</span> -->
+      <span>共找到{{ page.total }}条符合条件的内容</span>
     </el-row>
     <!-- 循环的模板 -->
     <!-- <el-row  v-for="item in 100" :key="item" class='article-item' type='flex' justify="space-between"> -->
-        <el-row  v-for="item in list" :key="item.id.toString()" class='article-item' type='flex' justify="space-between">
-        <!-- 左侧 -->
-       <el-col :span="14">
-           <el-row type='flex'>
-             <!-- <img src="../../assets/img/404.png" alt=""> -->
-             <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt="">
-              <div class='info'>
-                <!-- <span>年少不听李宗盛，听懂己是不惑年。</span>
+    <el-row
+      v-for="item in list"
+      :key="item.id.toString()"
+      class="article-item"
+      type="flex"
+      justify="space-between"
+    >
+      <!-- 左侧 -->
+      <el-col :span="14">
+        <el-row type="flex">
+          <!-- <img src="../../assets/img/404.png" alt=""> -->
+          <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt />
+          <div class="info">
+            <!-- <span>年少不听李宗盛，听懂己是不惑年。</span>
                 <el-tag class='tag'>标签一</el-tag>
-                <span class='date'>2019-12-24 09:15:42</span> -->
-                <span>{{ item.title }}</span>
-                <!-- 过滤器不但可以在插值表达中使用 还可以在v-bind表达式中使用 -->
-                <el-tag :type="item.status | filterType" class='tag'>{{ item.status | filterStatus }}</el-tag>
-                <span class='date'>{{ item.pubdate }}</span>
-              </div>
-           </el-row>
-       </el-col>
-       <!-- 右侧 -->
-       <el-col :span="6">
-           <el-row class='right' type='flex' justify="end">
-               <span><i class="el-icon-edit"></i>修改</span>
-               <span @click="delArticle(item.id)"><i class="el-icon-delete"></i> 删除</span>
-           </el-row>
-       </el-col>
+            <span class='date'>2019-12-24 09:15:42</span>-->
+            <span>{{ item.title }}</span>
+            <!-- 过滤器不但可以在插值表达中使用 还可以在v-bind表达式中使用 -->
+            <el-tag :type="item.status | filterType" class="tag">{{ item.status | filterStatus }}</el-tag>
+            <span class="date">{{ item.pubdate }}</span>
+          </div>
+        </el-row>
+      </el-col>
+      <!-- 右侧 -->
+      <el-col :span="6">
+        <el-row class="right" type="flex" justify="end">
+          <span>
+            <i class="el-icon-edit"></i>修改
+          </span>
+          <span @click="delArticle(item.id)">
+            <i class="el-icon-delete"></i> 删除
+          </span>
+        </el-row>
+      </el-col>
     </el-row>
-     <!-- 分页组件 -->
-    <el-row type='flex' justify="center" align="middle" style='height:60px'>
+    <!-- 分页组件 -->
+    <el-row type="flex" justify="center" align="middle" style="height:60px">
       <el-pagination
         background
         layout="prev, pager, next"
@@ -83,8 +95,7 @@
         :current-page="page.currentPage"
         :page-size="page.pageSize"
         @current-change="changePage"
-        >
-        </el-pagination>
+      ></el-pagination>
     </el-row>
   </el-card>
 </template>
@@ -106,6 +117,15 @@ export default {
         pageSize: 10, // 文章列表最低10条
         total: 0
       }
+    }
+  },
+  watch: {
+    formData: {
+      handler () {
+        // this指向组件实例 触发这个函数时 数据已经是最新的了
+        this.changeCondition()
+      },
+      deep: true // 深度检测
     }
   },
   filters: {
@@ -142,7 +162,6 @@ export default {
           break
       }
     }
-
   },
   methods: {
     // 删除文章 只能删除草稿
@@ -180,8 +199,11 @@ export default {
         per_page: this.page.pageSize, // 分页信息
         status: this.formData.status === 5 ? null : this.formData.status, // 不传为全部 5代表全部
         channel_id: this.formData.channel_id, // 频道
-        begin_pubdate: this.formData.dateRange.length ? this.formData.dateRange[0] : null, // 起始时间
-        end_pubdate: this.formData.dateRange.length > 1 ? this.formData.dateRange[1] : null // 截止时间
+        begin_pubdate: this.formData.dateRange.length
+          ? this.formData.dateRange[0]
+          : null, // 起始时间
+        end_pubdate:
+          this.formData.dateRange.length > 1 ? this.formData.dateRange[1] : null // 截止时间
       }
       this.getArticles(params) // 调用获取文章数据
     },
@@ -219,40 +241,40 @@ export default {
     padding-left: 50px;
   }
   .total {
-      margin:60px 0;
-      height: 30px;
-      border-bottom: 1px dashed #ccc;
+    margin: 60px 0;
+    height: 30px;
+    border-bottom: 1px dashed #ccc;
   }
   .article-item {
-      margin: 20px 0;
-      padding: 10px 0;
-      border-bottom: 1px solid #f2f3f5;
-      img {
-          width: 180px;
-          height: 100px;
-          margin-right: 10px;
-          border-radius: 4px;
+    margin: 20px 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #f2f3f5;
+    img {
+      width: 180px;
+      height: 100px;
+      margin-right: 10px;
+      border-radius: 4px;
+    }
+    .info {
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .tag {
+        max-width: 60px;
       }
-      .info {
-          height: 100px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          .tag {
-              max-width:60px;
-          }
-          .date {
-              color: #999;
-              font-size:12px;
-          }
+      .date {
+        color: #999;
+        font-size: 12px;
       }
-      .right {
-          span {
-              margin-left:8px;
-              font-size: 14px;
-              cursor: pointer;
-          }
+    }
+    .right {
+      span {
+        margin-left: 8px;
+        font-size: 14px;
+        cursor: pointer;
       }
+    }
   }
 }
 </style>
