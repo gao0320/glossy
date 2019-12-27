@@ -30,7 +30,7 @@ const routes = [{
     component: () => import('../views/articles')
   }, {
     path: 'publish',
-    component: () => ('../views/publish')
+    component: () => import('../views/publish')
   }]
 }, {
   path: '/login',
