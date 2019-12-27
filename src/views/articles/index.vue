@@ -70,7 +70,7 @@
        <el-col :span="6">
            <el-row class='right' type='flex' justify="end">
                <span><i class="el-icon-edit"></i>修改</span>
-               <span><i class="el-icon-delete"></i> 删除</span>
+               <span @click="delArticle(item.id)"><i class="el-icon-delete"></i> 删除</span>
            </el-row>
        </el-col>
     </el-row>
@@ -145,6 +145,22 @@ export default {
 
   },
   methods: {
+    // 删除文章 只能删除草稿
+    delArticle (id) {
+      this.$confirm('您是否确定删除该文章？').then(() => {
+        this.$axios({
+          method: 'delete',
+          url: `/articles/${id.toString()}`
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功！'
+          })
+        })
+        this.getConditionArticle()
+      })
+    },
+
     // 改变页码事件
     changePage (newPage) {
       // 赋值当前页码
@@ -176,18 +192,19 @@ export default {
       }).then(result => {
         this.channels = result.data.channels // 获取频道数据
       })
+    },
+    // 获取文章列表数据 分页 切换/ 条件切换
+    getArticles (params) {
+      this.$axios({
+        url: '/articles', // 请求地址
+        params
+      }).then(result => {
+        this.list = result.data.results // 接收文章列表数据
+        this.page.total = result.data.total_count // 文章总数
+      })
     }
   },
-  // 获取文章列表数据 分页 切换/ 条件切换
-  getArticles (params) {
-    this.$axios({
-      url: '/articles', // 请求地址
-      params
-    }).then(result => {
-      this.list = result.data.results // 接收文章列表数据
-      this.page.total = result.data.total_count // 文章总数
-    })
-  },
+
   created () {
     this.getChannels() // 调用获取频道数据
     this.getArticles({ page: 1, per_page: 10 }) // 调用获取文章列表
