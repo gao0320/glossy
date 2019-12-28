@@ -20,7 +20,9 @@
         <el-menu-item index="/home/fanslife">粉丝概况</el-menu-item>
         <el-menu-item index="/home/fanslist">粉丝现状</el-menu-item>
 </el-submenu>
-    <el-menu-item>账户信息</el-menu-item>
+    <el-menu-item index="/home/account">
+       账户信息
+    </el-menu-item>
 </el-menu>
 </div>
 
