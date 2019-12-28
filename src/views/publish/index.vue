@@ -14,7 +14,7 @@
           <!-- <el-input v-model="formData.content" type="textarea" :rows="4"></el-input> -->
           <quill-editor style="height:400px" v-model="formData.content"></quill-editor>
         </el-form-item>
-        <el-form-item label="封面" style="margin-top:120px">
+        <el-form-item prop="type" label="封面" style="margin-top:120px">
           <el-radio-group @change="changeType" v-model="formData.cover.type">
             <el-radio :label="1">单图</el-radio>
             <el-radio :label="3">三图</el-radio>
@@ -23,7 +23,7 @@
           </el-radio-group>
           <!-- {{formData.cover}} -->
         </el-form-item>
-        <cover-image @clickImg="receiveImg" :list="formData.cover.images"></cover-image>
+        <cover-image @clickOneImg="receiveImg" :list="formData.cover.images"></cover-image>
         <el-form-item prop="channel_id" label="频道">
           <el-select v-model="formData.channel_id">
               <el-option v-for="item in channels" :key="item.id" :value="item.id" :label="item.name">
@@ -95,8 +95,11 @@ export default {
     // }
   },
   methods: {
-    receiveImg (img) {
-      alert('再次接收到地址:' + img)
+    receiveImg (img, index) {
+    //   debugger
+      //   alert('再次接收到地址:' + img)
+      //   this.formData.cover.images[index] = img  直接改 不可以 vue的响应式数据监控不到
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? img : item)
     },
     changeType () {
     //   alert(this.formData.cover.type) this指向组件实例

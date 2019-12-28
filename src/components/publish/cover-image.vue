@@ -1,6 +1,6 @@
 <template>
 <div class="cover-image">
-    <div @click="openDialog" v-for="(item,index) in list" :key="index" class="cover-item">
+    <div @click="openDialog(index)" v-for="(item,index) in list" :key="index" class="cover-item">
         <!-- <img src="../../assets/img/pic_bg.png" alt=""> -->
         <img :src="item ? item : defaultImg" alt="">
     </div>
@@ -19,15 +19,18 @@ export default {
   data () {
     return {
       dialogVisible: false, // 默认false 点击才打开
-      defaultImg: require('../../assets/img/pic_bg.png')
+      defaultImg: require('../../assets/img/pic_bg.png'),
+      selectIndex: -1
     }
   },
   methods: {
     receiveImg (img) {
     // alert(img) 接受到的地址没法放到list中  这里props list是接受父组件的 有只读性=》需要再次传递
-      this.$emit('clickOneImg', img) // 再次触发自定义事件
+      this.$emit('clickOneImg', img, this.selectIndex) // 再次触发自定义事件
+      this.closeDialog()
     },
-    openDialog () {
+    openDialog (index) {
+      this.selectIndex = index
       this.dialogVisible = true
     },
     closeDialog () {

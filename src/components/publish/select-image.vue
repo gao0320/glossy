@@ -38,9 +38,9 @@ export default {
     },
     changePage (newPage) {
       this.page.currentPage = newPage
-      this.getAllimg()
+      this.getAllImg()
     },
-    getAllimg () {
+    getAllImg () {
       this.$axios({
         url: '/user/images',
         params: {
@@ -55,13 +55,12 @@ export default {
     }
   },
   created () {
-    this.getAllimg()
+    this.getAllImg()
   }
 }
 </script >
 
 <style lang='less' scoped>
-
  .select-img-list {
     display: flex;
     flex-wrap: wrap;
