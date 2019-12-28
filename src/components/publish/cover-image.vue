@@ -1,9 +1,14 @@
 <template>
 <div class="cover-image">
-    <div v-for="(item,index) in list" :key="index" class="cover-item">
+    <div @click="openDialog" v-for="(item,index) in list" :key="index" class="cover-item">
         <!-- <img src="../../assets/img/pic_bg.png" alt=""> -->
         <img :src="item ? item : defaultImg" alt="">
     </div>
+    <el-dialog :visible="dialogVisible" @close="closeDialog">
+    <!-- dialog弹出生成的元素默认在body上  不在这里 -->
+    <!-- <span>这里是插槽 放选择素材组件 一般不放到这里再封装组件</span> -->
+    <select-image></select-image>
+    </el-dialog>
 </div>
 
 </template>
@@ -13,7 +18,16 @@ export default {
   props: ['list'],
   data () {
     return {
+      dialogVisible: false, // 默认false 点击才打开
       defaultImg: require('../../assets/img/pic_bg.png')
+    }
+  },
+  methods: {
+    openDialog () {
+      this.dialogVisible = true
+    },
+    closeDialog () {
+      this.dialogVisible = false
     }
   }
 }
