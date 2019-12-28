@@ -23,7 +23,7 @@
           </el-radio-group>
           <!-- {{formData.cover}} -->
         </el-form-item>
-        <cover-image :list="formData.cover.images"></cover-image>
+        <cover-image @clickImg="receiveImg" :list="formData.cover.images"></cover-image>
         <el-form-item prop="channel_id" label="频道">
           <el-select v-model="formData.channel_id">
               <el-option v-for="item in channels" :key="item.id" :value="item.id" :label="item.name">
@@ -95,6 +95,9 @@ export default {
     // }
   },
   methods: {
+    receiveImg (img) {
+      alert('再次接收到地址:' + img)
+    },
     changeType () {
     //   alert(this.formData.cover.type) this指向组件实例
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {

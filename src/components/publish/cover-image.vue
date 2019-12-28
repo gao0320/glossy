@@ -7,7 +7,7 @@
     <el-dialog :visible="dialogVisible" @close="closeDialog">
     <!-- dialog弹出生成的元素默认在body上  不在这里 -->
     <!-- <span>这里是插槽 放选择素材组件 一般不放到这里再封装组件</span> -->
-    <select-image></select-image>
+    <select-image @selectOneImg="receiveImg"></select-image>
     </el-dialog>
 </div>
 
@@ -23,6 +23,10 @@ export default {
     }
   },
   methods: {
+    receiveImg (img) {
+    // alert(img) 接受到的地址没法放到list中  这里props list是接受父组件的 有只读性=》需要再次传递
+      this.$emit('clickOneImg', img) // 再次触发自定义事件
+    },
     openDialog () {
       this.dialogVisible = true
     },

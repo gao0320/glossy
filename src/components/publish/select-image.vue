@@ -1,11 +1,11 @@
 <template>
     <!-- 选择图片 -->
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName">
         <el-tab-pane label="素材库" name="material">
           <div class="select-img-list">
             <!-- 循环生成列表 -->
             <el-card class="img-card" v-for="item in list" :key="item.id">
-              <img :src="item.url" alt="">
+              <img @click="clickImg(item.url)" :src="item.url" alt="">
             </el-card>
           </div>
           <!-- 分页 -->
@@ -32,6 +32,10 @@ export default {
     }
   },
   methods: {
+    clickImg (url) {
+      // 把url传给coverimg的模板中 用到组件子传父
+      this.$emit('selectOneImg', url)
+    },
     changePage (newPage) {
       this.page.currentPage = newPage
       this.getAllimg()
