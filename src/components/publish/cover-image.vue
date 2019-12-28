@@ -1,7 +1,8 @@
 <template>
 <div class="cover-image">
     <div v-for="(item,index) in list" :key="index" class="cover-item">
-        <img src="../../assets/img/pic_bg.png" alt="">
+        <!-- <img src="../../assets/img/pic_bg.png" alt=""> -->
+        <img :src="item ? item : defaultImg" alt="">
     </div>
 </div>
 
@@ -9,7 +10,12 @@
 
 <script>
 export default {
-  props: ['list']
+  props: ['list'],
+  data () {
+    return {
+      defaultImg: require('../../assets/img/pic_bg.png')
+    }
+  }
 }
 </script>
 

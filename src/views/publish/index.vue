@@ -15,7 +15,7 @@
           <quill-editor style="height:400px" v-model="formData.content"></quill-editor>
         </el-form-item>
         <el-form-item label="封面" style="margin-top:120px">
-          <el-radio-group v-model="formData.cover.type">
+          <el-radio-group @change="changeType" v-model="formData.cover.type">
             <el-radio :label="1">单图</el-radio>
             <el-radio :label="3">三图</el-radio>
             <el-radio :label="0">无图</el-radio>
@@ -82,19 +82,30 @@ export default {
           }
         }
       }
-    },
-    'formData.cover.type': function () {
-    //   alert(this.formData.cover.type)
+    }
+    // 'formData.cover.type': function () {
+    // //   alert(this.formData.cover.type) this指向组件实例
+    //   if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
+    //     this.formData.cover.images = [] // 无图或自动
+    //   } else if (this.formData.cover.type === 1) {
+    //     this.formData.cover.images = [''] // 单图
+    //   } else if (this.formData.cover.type === 3) {
+    //     this.formData.cover.images = ['', '', ''] // 三图
+    //   }
+    // }
+  },
+  methods: {
+    changeType () {
+    //   alert(this.formData.cover.type) this指向组件实例
       if (this.formData.cover.type === 0 || this.formData.cover.type === -1) {
         this.formData.cover.images = [] // 无图或自动
       } else if (this.formData.cover.type === 1) {
-        this.formData.cover.type = [''] // 单图
+        this.formData.cover.images = [''] // 单图
       } else if (this.formData.cover.type === 3) {
-        this.formData.cover.type = ['', '', ''] // 三图
+        this.formData.cover.images = ['', '', ''] // 三图
       }
-    }
-  },
-  methods: {
+    },
+
     // 获取频道
     getChannels () {
       this.$axios({
