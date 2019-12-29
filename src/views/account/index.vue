@@ -1,9 +1,9 @@
 <template>
-  <el-card>
+  <el-card v-loading="loading">
       <bread-crumb slot="header">
         <template slot="title">账户信息</template>
       </bread-crumb>
-      <el-upload class="head-upload" action="" :show-file-list="false">
+      <el-upload :http-request="uploadImg" class="head-upload" action="" :show-file-list="false">
           <img :src="formData.photo ? formData.photo : defaultImg" alt="">
       </el-upload>
       <el-form ref="myForm" :model="formData" :rules="rules" style="margin-left:100px" label-width="60px">
@@ -30,6 +30,7 @@
 export default {
   data () {
     return {
+      loading: false,
       formData: {
         name: '',
         intro: '',
@@ -49,6 +50,19 @@ export default {
     }
   },
   methods: {
+    uploadImg (params) {
+      this.loading = true
+      let data = new FormData()
+      data.append('photo', params.file)
+      this.$axios({
+        url: 'user/photo',
+        data: data,
+        method: 'patch'
+      }).then(result => {
+        this.formData.photo = result.data.photo
+        this.loading = false
+      })
+    },
     getUserInfo () {
       this.$axios({
         url: '/user/profile'
