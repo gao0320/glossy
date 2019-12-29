@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -31,23 +32,31 @@ export default {
   // 生命周期 进入查询数据
   created () {
     // let token = window.localStorage.getItem('user-token')
-    this.$axios({
-      url: '/user/profile'
-      // headers: {
-      //   Authorization: `Bearer ${token}`
-      // }
-    }).then(result => {
-      this.userInfo = result.data// 获取用户信息
+    this.getUserInfo()
+    eventBus.$on('updateUserInfoSuccess', () => {
+      // alert('66666666666666666666')
+      this.getUserInfo()
     })
   },
   methods: {
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+      // headers: {
+      //   Authorization: `Bearer ${token}`
+      // }
+      }).then(result => {
+        this.userInfo = result.data// 获取用户信息
+      })
+    },
     handle (command) {
       if (command === 'lgout') {
-        debugger
         window.localStorage.removeItem('user-token')
         this.$router.push('/login')
       } else if (command === 'git') {
         window.location.href = 'https://github.com/gao0320'
+      } else if (command === 'info') {
+        this.$router.push('/home/account')
       }
     }
   }
