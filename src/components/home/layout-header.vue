@@ -1,7 +1,8 @@
 <template>
   <el-row class="layout-header" type="flex" justify="space-between" align="middle">
     <el-col class="left" :span="7">
-      <i class="el-icon-s-fold"></i>
+      <i @click="collaspseOrOpen" :class="{'el-icon-s-unfold': collapse,'el-icon-s-fold':!collapse}"></i>
+      <!-- <i class="el-icon-s-unfold"></i>el-icon-s-fold -->
       <span class="title">江苏传智播客教育科技股份有限公司</span>
     </el-col>
     <el-col :span="4" class="right">
@@ -25,6 +26,7 @@ import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
+      collapse: false, // 是否折叠
       userInfo: {}, // 用户信息
       defaultImg: require('../../assets/img/325608.jpg')
     }
@@ -39,6 +41,10 @@ export default {
     })
   },
   methods: {
+    collaspseOrOpen () {
+      this.collapse = !this.collapse
+      eventBus.$emit('changeCollapse')
+    },
     getUserInfo () {
       this.$axios({
         url: '/user/profile'
@@ -71,6 +77,9 @@ export default {
     .title {
       margin-left: 4px;
       font-size: 14px;
+    }
+    i {
+      font-size: 20px;
     }
   }
   .right{
