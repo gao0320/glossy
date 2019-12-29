@@ -1,6 +1,10 @@
 <template>
   <!-- 二级组件默认组件 -->
-  <div class="home"></div>
+  <div class="home">
+    <el-row style='height:100vh' type='flex' justify="center" align="middle">
+      <toutiao-date></toutiao-date>
+    </el-row>
+  </div>
 </template>
 
 <script>
