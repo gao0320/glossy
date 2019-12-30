@@ -56,30 +56,30 @@ export default {
   .date {
       background-image: url('../../assets/img/back.png');
       background-size: cover;
-      width:400px;
-      height: 400px;
+      width:200px;
+      height: 200px;
       display: flex;
       justify-content: center;
       position: relative;
       .hour,.min,.second {
           position: absolute;
-          bottom:200px;
+          bottom:100px;
           transform-origin: 0 100%;
       }
     .hour {
         background-image: url('../../assets/img/hou.png');
-        width:8px;
-        height: 100px;
+        width:4px;
+        height: 50px;
     }
      .min {
         background-image: url('../../assets/img/min.png');
-        width:6px;
-        height:120px;
+        width:3px;
+        height:60px;
     }
     .second {
         background-image: url('../../assets/img/sec.png');
-        width:4px;
-        height:160px;
+        width:2px;
+        height:80px;
     }
   }
 </style>
